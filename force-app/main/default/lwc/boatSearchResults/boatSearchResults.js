@@ -54,7 +54,7 @@ export default class BoatSearchResults extends LightningElement {
   @wire(getBoats, { boatTypeId: '$boatTypeId' })
   wiredBoats({ error, data }) {
     if (data) {
-        console.log('wiredBoats get boats')
+        //console.log('wiredBoats get boats')
         this.boats = data;
     } else if (error) {
        // console.log('something went wrong '+ error);
@@ -67,10 +67,12 @@ export default class BoatSearchResults extends LightningElement {
   // uses notifyLoading
   @api
   searchBoats(boatTypeId) { 
-    console.log('searchBoats '+boatTypeId);
+    //console.log('searchBoats '+boatTypeId);
     this.isLoading=true;
     this.notifyLoading(true);
-    this.boatTypeId=boatTypeId}
+    this.boatTypeId=boatTypeId
+    this.template.querySelector('c-boats-near-me').searchBoats(boatTypeId);
+  }
   
   // this public function must refresh the boats asynchronously
   // uses notifyLoading
