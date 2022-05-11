@@ -8,7 +8,7 @@ const ICON_STANDARD_USER = 'standard:user';
 const ERROR_TITLE = 'Error loading Boats Near Me';
 const ERROR_VARIANT = 'error';
 export default class BoatsNearMe extends LightningElement {
-  @track
+  @api
   boatTypeId='';
   @track
   mapMarkers = [];
@@ -20,7 +20,17 @@ export default class BoatsNearMe extends LightningElement {
   @track
   longitude;
   myLocationService;
-  
+
+  // public function that updates the existing boatTypeId property
+  // this method can be accessed by a parent and change a tracked property boatTypeId
+  // the changed of the property triggers a wired function getBoatsByLocation which is getting boats by current location and boat type
+/*   @api
+  searchBoats(boatTypeId) { 
+    this.isLoading=true;
+    this.boatTypeId=boatTypeId;
+   
+  } */
+
   // Add the wired method from the Apex Class
   // Name it getBoatsByLocation, and use latitude, longitude and boatTypeId
   // Handle the result and calls createMapMarkers
@@ -41,19 +51,12 @@ export default class BoatsNearMe extends LightningElement {
     }
     this.isLoading=false;
   }
-  
-  // public function that updates the existing boatTypeId property
-  @api
-  searchBoats(boatTypeId) { 
-    this.isLoading=true;
-    this.boatTypeId=boatTypeId;
-    console.log('boats near me boat type id '+this.boatTypeId);
-  }
+   
 
   // Controls the isRendered property
   // Calls getLocationFromBrowser()
   renderedCallback() { 
-    
+  
     if (!this.isRendered){
         this.isRendered= !this.isRendered;
         this.getLocation();       

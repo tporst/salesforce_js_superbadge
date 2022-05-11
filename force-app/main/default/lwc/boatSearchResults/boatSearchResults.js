@@ -71,7 +71,7 @@ export default class BoatSearchResults extends LightningElement {
     this.isLoading=true;
     this.notifyLoading(true);
     this.boatTypeId=boatTypeId
-    this.template.querySelector('c-boats-near-me').searchBoats(boatTypeId);
+    //this.template.querySelector('c-boats-near-me').searchBoats(boatTypeId);
   }
   
   // this public function must refresh the boats asynchronously
