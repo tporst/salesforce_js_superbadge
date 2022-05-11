@@ -1,4 +1,4 @@
-import { LightningElement, wire } from 'lwc';
+import { LightningElement, wire, track} from 'lwc';
 
 // imports
 // import getBoatTypes from the BoatDataService => getBoatTypes method';
@@ -8,7 +8,8 @@ export default class BoatSearchForm extends LightningElement {
     selectedBoatTypeId = '';
     // Private
     error = undefined;   
-    searchOptions;
+    @track 
+    searchOptions=[];
     
     // Wire a custom Apex method, which means the lightning framework take care of caching and of triggering the call on the right moment 
       @wire(getBoatTypes)

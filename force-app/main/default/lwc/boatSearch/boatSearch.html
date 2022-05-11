@@ -1,29 +1,24 @@
 <template>
-    <lightning-layout multiple-rows>
+  <lightning-layout multiple-rows>
       <!-- Top -->
       <lightning-layout-item size="12">
-        <lightning-card title="Find a Boat">
-          <!-- New Boat button goes here -->
-          <lightning-button label="New Boat" title="New Boat" onclick={searchBoats} class="slds-m-right_x-small slds-float_right" style="position:absolute;top:1rem;right:1rem;"></lightning-button>
-          <p class="slds-var-p-horizontal_small slds-align_absolute-center">
-            <!-- boatSearchForm component goes here -->
-            <c-boat-search-form></c-boat-search-form>
-          </p>
-        </lightning-card>
+          <lightning-card title="Find a Boat">
+              <lightning-button label="New Boat" onclick={createNewBoat}></lightning-button>
+              <p class="slds-var-p-horizontal_small">
+                  <!-- its good practice to register a listner for 'search' event in this way, its than not necessary to do it on boatsearch component with addListner(....)-->
+                  <c-boat-search-form onsearch={searchBoats}></c-boat-search-form>
+              </p>
+          </lightning-card>
       </lightning-layout-item>
       <!-- Bottom -->
       <lightning-layout-item size="12" class="slds-p-top_small slds-is-relative">
-        <!-- Spinner goes here -->
-        <template if:true={isLoading}>
-          <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
-      </template>
-      <c-boat-search-results></c-boat-search-results> 
-
-  
-
-
-
-        <!-- onloading={handleLoading} ondoneloading={handleDoneLoading} -->
+    
+          <template if:true={isLoading}>
+              <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+          </template>
+     
+           <c-boat-search-results onloading={handleLoading} ondoneloading={handleDoneLoading}></c-boat-search-results> 
+        
       </lightning-layout-item>
-    </lightning-layout>
-  </template>
+  </lightning-layout>
+</template>

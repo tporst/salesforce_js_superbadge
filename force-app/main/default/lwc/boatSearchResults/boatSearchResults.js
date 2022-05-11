@@ -5,7 +5,7 @@ import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 // Import message service features required for publishing and the message channel
 import { publish, MessageContext } from 'lightning/messageService';
-import boatMessageChannel from '@salesforce/messageChannel/BoatMessageChannel__c';
+import BoatMC from '@salesforce/messageChannel/BoatMessageChannel__c';
 
 
 const SUCCESS_TITLE = 'Success';
@@ -23,17 +23,24 @@ import DESCRIPTION_FIELD from '@salesforce/schema/Boat__c.Description__c';
 
 
 export default class BoatSearchResults extends LightningElement {
- 
+/*  
   columns = [{ label: 'Name', fieldName: NAME_FIELD.fieldApiName, type: 'text', editable : 'true' },
-  { label: 'Length', fieldName: LENGTH_FIELD.fieldApiName, type: 'currency', editable : 'true' },
-  { label: 'Price', fieldName: PRICE_FIELD.fieldApiName, type: 'number' , editable : 'true'},
-  { label: 'Description', fieldName: DESCRIPTION_FIELD.fieldApiName, type: 'text' , editable : 'true'}];
+  { label: 'Length', fieldName: LENGTH_FIELD.fieldApiName, type: 'number', editable : 'true' },
+  { label: 'Price', fieldName: PRICE_FIELD.fieldApiName, type: 'currency' , editable : 'true'},
+  { label: 'Description', fieldName: DESCRIPTION_FIELD.fieldApiName, type: 'text' , editable : 'true'}]; */
+  columns = [
+             { label: 'Name', fieldName: 'Name', type: 'text', editable: 'true'  },
+             { label: 'Length', fieldName: 'Length__c', type: 'number', editable: 'true' },
+             { label: 'Price', fieldName: 'Price__c', type: 'currency', editable: 'true' },
+             { label: 'Description', fieldName: 'Description__c', type: 'text', editable: 'true' }
+         ];
+
   @track
   selectedBoatId='';
   @track
   boatTypeId = '';
   @track
-  boats;
+  boats=[];
   @track draftValues = [];
   isLoading = false;
 
@@ -53,21 +60,20 @@ export default class BoatSearchResults extends LightningElement {
   // wired getBoats method 
   @wire(getBoats, { boatTypeId: '$boatTypeId' })
   wiredBoats({ error, data }) {
+
     if (data) {
-        //console.log('wiredBoats get boats')
         this.boats = data;
     } else if (error) {
-       // console.log('something went wrong '+ error);
+        console.log('something went wrong '+ error);
     }
     this.isLoading=false;
-    this.notifyLoading(false);
+    this.notifyLoading(false); 
 }
   
   // public function that updates the existing boatTypeId property
   // uses notifyLoading
   @api
   searchBoats(boatTypeId) { 
-    //console.log('searchBoats '+boatTypeId);
     this.isLoading=true;
     this.notifyLoading(true);
     this.boatTypeId=boatTypeId
@@ -77,9 +83,11 @@ export default class BoatSearchResults extends LightningElement {
   // this public function must refresh the boats asynchronously
   // uses notifyLoading
   async refresh() { 
-      console.log('refresh is called')    
-      await refreshApex(this.boats);
-      console.log('refresh is over')
+    this.isLoading = true;
+    this.notifyLoading(this.isLoading);      
+    await refreshApex(this.boats);
+    this.isLoading = false;
+    this.notifyLoading(this.isLoading);    
     }
   
   // this function must update selectedBoatId and call sendMessageService
@@ -93,7 +101,7 @@ export default class BoatSearchResults extends LightningElement {
   // Publishes the selected boat Id on the BoatMC.
   sendMessageService(boatId) { 
     const payload = { recordId: boatId };
-    publish(this.messageContext, boatMessageChannel, payload);
+    publish(this.messageContext, BoatMC, payload);
     // explicitly pass boatId to the parameter recordId
   }
   
