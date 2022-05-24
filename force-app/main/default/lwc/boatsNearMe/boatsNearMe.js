@@ -30,6 +30,7 @@ export default class BoatsNearMe extends LightningElement {
             this.isLoading = false;
         }
     }
+    //when the component is rendered, get the geolocation
     renderedCallback() {
         if (this.isRendered == false) {
             this.getLocationFromBrowser();
@@ -45,6 +46,7 @@ export default class BoatsNearMe extends LightningElement {
             },
             (e) => {
                 console.log('error '+JSON.stringify(e))
+                //when geolocation is disabled, use dummy values
                 this.latitude = '48.137154';
                 this.longitude = '11.576124';
 

@@ -5,6 +5,7 @@ import { NavigationMixin } from 'lightning/navigation'
 export default class BoatSearch extends NavigationMixin(LightningElement) {
     @track isLoading = false;
 
+    // other possibility to register this handler is throw event listner
     // Handles loading event
     handleLoading(event) {
         this.isLoading = true;
@@ -19,6 +20,7 @@ export default class BoatSearch extends NavigationMixin(LightningElement) {
     // This custom event comes from the form
     searchBoats(event) {
         const boatTypeId = event.detail.boatTypeId;
+        //call the method on the child component 
         this.template.querySelector("c-boat-search-results").searchBoats(boatTypeId);
     }
 

@@ -1,0 +1,40 @@
+<template>
+    <template if:false={wiredRecord.data}>
+      <span class="slds-align_absolute-center no-boat-height">
+        {label.labelPleaseSelectABoat}
+      </span>
+      <!-- lightning card for the label when wiredRecord has no data goes here  -->
+    </template>
+    <template if:true={wiredRecord.data}>
+        <lightning-tabset variant="scoped">
+          <lightning-tab label={label.labelDetails}>
+            <lightning-card>
+              <h3 slot="title">
+
+                <div class="slds-grid slds-gutters">
+                  <div class="slds-col">
+                    <span><lightning-icon icon-name={detailsTabIconName} size="small"></lightning-icon></span>
+                  </div>
+                  <div class="slds-col">
+                    <span>{boatName}</span>
+                  </div>             
+                </div>                  
+              </h3>
+              <!-- use lighting-record component to display/edit records out of the box -->
+              <lightning-record-view-form
+                  record-id={id}
+                  object-api-name={boatObj}
+                  >
+                <div class="slds-box">                    
+                    <lightning-output-field field-name={boatLengthField}> </lightning-output-field>
+                    <lightning-output-field field-name={boatPriceField}> </lightning-output-field>
+                    <lightning-output-field field-name={boatDescriptionField}> </lightning-output-field>
+                </div>
+              </lightning-record-view-form>
+          </lightning-card>
+          </lightning-tab>
+        </lightning-tabset>
+       <!-- lightning card for the content when wiredRecord has data goes here  -->
+    </template>
+  </template>
+  
