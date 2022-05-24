@@ -31,10 +31,16 @@
                     <lightning-output-field field-name={boatDescriptionField}> </lightning-output-field>
                 </div>
               </lightning-record-view-form>
-          </lightning-card>
+            </lightning-card>            
           </lightning-tab>
+          <lightning-tab label={label.labelReviews}>
+          
+          </lightning-tab>
+          <lightning-tab label={label.labelAddReview}>
+            <c-boat-add-review-form record-id = {boatId}></c-boat-add-review-form>
+          
+          </lightning-tab>    
         </lightning-tabset>
-       <!-- lightning card for the content when wiredRecord has data goes here  -->
     </template>
   </template>
   
