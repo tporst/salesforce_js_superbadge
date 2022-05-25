@@ -48,11 +48,10 @@ export default class BoatAddReviewForm extends LightningElement {
       //console.log('Submit '+JSON.stringify(event.detail));
       event.preventDefault();          
       const fields = event.detail.fields;
-      fields['Boat__c'] = this.boatId;
-      fields['Rating__c'] = this.rating;
+      fields.Boat__c = this.boatId;
+      fields.Rating__c = this.rating;
       this.template.querySelector('lightning-record-edit-form').submit(fields);
-      let submit = new CustomEvent('createreview', { detail:{},bubbles: true, cancelable: true });
-      this.dispatchEvent(submit);
+  
     
     }
     
@@ -65,7 +64,9 @@ export default class BoatAddReviewForm extends LightningElement {
             title: SUCCESS_TITLE,
             variant: SUCCESS_VARIANT
         })
-   );
+      );
+      let submit = new CustomEvent('createreview', { detail:{},bubbles: true, cancelable: true });
+      this.dispatchEvent(submit);
       this.handleReset();
     }
     
