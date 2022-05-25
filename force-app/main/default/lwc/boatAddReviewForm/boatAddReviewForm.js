@@ -1,12 +1,11 @@
 import { LightningElement , track, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-
-// imports
+// schema imports
 import BOAT_REVIEW_OBJECT from '@salesforce/schema/BoatReview__c'
 import NAME_FIELD from '@salesforce/schema/BoatReview__c.Name'
 import COMMENT_FIELD from '@salesforce/schema/BoatReview__c.Comment__c'
 import BOAT_REF_FIELD from '@salesforce/schema/BoatReview__c.Boat__c'
-
+// constants
 const SUCCESS_TITLE = 'Review Created!';
 const SUCCESS_VARIANT     = 'success';
 
@@ -39,19 +38,22 @@ export default class BoatAddReviewForm extends LightningElement {
     // Gets user rating input from stars component
     handleRatingChanged(event) { 
       this.rating = event.detail.rating;
-      console.log('handleRatingChanged '+JSON.stringify(event.detail.rating))}
+      console.log('handleRatingChanged '+JSON.stringify(event.detail.rating))
+    }
     
     // Custom submission handler to properly set Rating
     // This function must prevent the anchor element from navigating to a URL.
     // form to be submitted: lightning-record-edit-form
     handleSubmit(event) { 
       //console.log('Submit '+JSON.stringify(event.detail));
-      event.preventDefault();       
+      event.preventDefault();          
       const fields = event.detail.fields;
       fields['Boat__c'] = this.boatId;
       fields['Rating__c'] = this.rating;
       this.template.querySelector('lightning-record-edit-form').submit(fields);
-      //console.log('handleSubmit**');
+      let submit = new CustomEvent('createreview', { detail:{},bubbles: true, cancelable: true });
+      this.dispatchEvent(submit);
+    
     }
     
     // Shows a toast message once form is submitted successfully
@@ -71,24 +73,8 @@ export default class BoatAddReviewForm extends LightningElement {
     // TODO: it must reset each lightning-input-field
     handleReset() { 
       
-/*       const fiveStarsRating = this.template.querySelectorAll('c-five-star-rating');
-      //fiveStarsRating.value=0;
-
-      if(fiveStarsRating) {
-        fiveStarsRating.forEach(field => {
-            field.value=0;
-        });
-      }
-
-
-      console.log('###### '+JSON.stringify(fiveStarsRating));
- */
-
-      this.value=0;
-
       const inputFields = this.template.querySelectorAll('lightning-input-field');
       console.log('****** '+JSON.stringify(inputFields));
-
 
       if(inputFields) {
         inputFields.forEach(field => {

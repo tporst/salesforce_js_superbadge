@@ -29,6 +29,9 @@ export default class BoatDetailTabs extends LightningElement {
   
   @track
   boatId;
+
+  @track
+  activeTab;
   
   @wire(getRecord, { recordId: '$boatId', fields: BOAT_FIELDS })
   wiredRecord;
@@ -80,5 +83,7 @@ export default class BoatDetailTabs extends LightningElement {
   navigateToRecordViewPage() { }
   
   // Navigates back to the review list, and refreshes reviews component
-  handleReviewCreated() { }
+  handleReviewCreated() {
+    this.activeTab ='reviews';
+  }
 }
