@@ -85,5 +85,6 @@ export default class BoatDetailTabs extends LightningElement {
   // Navigates back to the review list, and refreshes reviews component
   handleReviewCreated() {
     this.activeTab ='reviews';
+    this.template.querySelector('c-boat-reviews').refresh();
   }
 }

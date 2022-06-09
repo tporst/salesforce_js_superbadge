@@ -73,7 +73,7 @@ export default class FiveStarRating extends LightningElement {
       self.ratingChanged(rating);
     };
   
-    this.ratingObj = window.rating(
+    this.ratingObj = window.rating( // it looks like load script load the js script into window object
       domEl,
       this.value,
       maxRating,
