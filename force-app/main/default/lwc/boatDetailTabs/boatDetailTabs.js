@@ -17,7 +17,8 @@ import PRICE_FIELD from '@salesforce/schema/Boat__c.Price__c';
 import LENGTH_FIELD from '@salesforce/schema/Boat__c.Length__c';
 import DESCRIPTION_FIELD from '@salesforce/schema/Boat__c.Description__c';
 const BOAT_FIELDS = [BOAT_ID_FIELD, BOAT_NAME_FIELD,PRICE_FIELD,LENGTH_FIELD,DESCRIPTION_FIELD];
-export default class BoatDetailTabs extends LightningElement {
+import {NavigationMixin} from 'lightning/navigation';
+export default class BoatDetailTabs extends NavigationMixin(LightningElement) {
  
   label = {
     labelDetails,
@@ -38,7 +39,10 @@ export default class BoatDetailTabs extends LightningElement {
   
   // Decide when to show or hide the icon
   // returns 'utility:anchor' or null
-  get detailsTabIconName() { return 'utility:anchor'}
+  get detailsTabIconName() {
+    return this.wiredRecord && this.wiredRecord.data ? 'utility:anchor' : null;
+   }
+  
   
   // Utilize getFieldValue to extract the boat name from the record wire
   get boatName() { return getFieldValue(this.wiredRecord.data, BOAT_NAME_FIELD);}
@@ -80,11 +84,20 @@ export default class BoatDetailTabs extends LightningElement {
 }
   
   // Navigates to record page
-  navigateToRecordViewPage() { }
+  navigateToRecordViewPage() {
+    this[NavigationMixin.Navigate]({
+      type: "standard__recordPage",
+      attributes: {
+          recordId: this.boatId,
+          actionName: "view"
+      }
+  });
+  }
   
   // Navigates back to the review list, and refreshes reviews component
   handleReviewCreated() {
-    this.activeTab ='reviews';
+    this.template.querySelector('lightning-tabset').activeTabValue = 'reviews';
     this.template.querySelector('c-boat-reviews').refresh();
-  }
+    // BoatReviews.refresh();
+   }
 }

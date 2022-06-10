@@ -20,6 +20,8 @@ public with sharing class BoatDataService {
     }
     @AuraEnabled(cacheable=true)
     public static List<Boat__c> getSimilarBoats(Id boatId, String similarBy) {
+
+        System.debug('tomasz '+ boatId+ '   '+ similarBy);
         List<Boat__c> similarBoats = new List<Boat__c>();
         List<Boat__c> parentBoat = [SELECT Id, Length__c, Price__c, BoatType__c, BoatType__r.Name
                                     FROM Boat__c
@@ -66,6 +68,7 @@ public with sharing class BoatDataService {
     }
     @AuraEnabled
     public static List<BoatReview__c> getAllReviews(Id boatId) {
+        System.debug('tomasz '+ boatId);
         return [
             SELECT
                 Id,

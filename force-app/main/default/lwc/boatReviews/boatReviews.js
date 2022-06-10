@@ -27,16 +27,12 @@ get reviewsToShow(){
 get recordId() { return this.boatId; }
 @api
 set recordId(value) {
-    this.boatId=value;
-
+  this.boatId=value;
   //sets boatId attribute
   //sets boatId assignment
   //get reviews associated with boatId
   this.getReviews();
 }
-
-// Getter to determine if there are reviews to display
-//get reviewsToShow() { }
 
 // Public method to force a refresh of the reviews invoking getReviews
 @api

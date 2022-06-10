@@ -50,7 +50,7 @@ export default class BoatAddReviewForm extends LightningElement {
       const fields = event.detail.fields;
       fields.Boat__c = this.boatId;
       fields.Rating__c = this.rating;
-      this.template.querySelector('lightning-record-edit-form').submit(fields);
+      this.template.querySelector('lightning-record-edit-form').submit(fields); //you can overwrite the submit and change the values for each field
   
     
     }
