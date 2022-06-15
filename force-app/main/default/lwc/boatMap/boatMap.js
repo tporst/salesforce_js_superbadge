@@ -19,6 +19,7 @@ export default class BoatMap extends LightningElement {
         return this.boatId;
     }
     set recordId(value) {
+        // set html tag attribute
         this.setAttribute('boatId', value);
         this.boatId = value;
     }

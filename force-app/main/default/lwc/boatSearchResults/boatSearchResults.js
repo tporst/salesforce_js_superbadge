@@ -53,11 +53,12 @@ export default class BoatSearchResults extends LightningElement {
   }
 
 
-  // wired message context
+  // wired message context, this is there to provide system information about this lwc, which is used to send the message
   @wire(MessageContext)
   messageContext;
 
-  // wired getBoats method 
+  // wired getBoats method
+  // wire the apex method to js function
   @wire(getBoats, { boatTypeId: '$boatTypeId' })
   wiredBoats({ error, data }) {
 
@@ -72,16 +73,18 @@ export default class BoatSearchResults extends LightningElement {
   
   // public function that updates the existing boatTypeId property
   // uses notifyLoading
+  // this method is exposed as api which makes it public
+  // and can be access/call like this.template.querySelector("c-boat-search-results").searchBoats(boatTypeId);
   @api
   searchBoats(boatTypeId) { 
     this.isLoading=true;
     this.notifyLoading(true);
     this.boatTypeId=boatTypeId
-    //this.template.querySelector('c-boats-near-me').searchBoats(boatTypeId);
   }
   
   // this public function must refresh the boats asynchronously
   // uses notifyLoading
+  // refreshing the boats variable in wired method makes the wired method refresh
   async refresh() { 
     this.isLoading = true;
     this.notifyLoading(this.isLoading);      
@@ -140,9 +143,8 @@ export default class BoatSearchResults extends LightningElement {
         this.notifyLoading(false);
     })
     .finally(() => {
+        // the array keeping edited values has to be reset 
         this.draftValues = [];
-
-        console.log('finally ');
         this.notifyLoading(false);
     });
 

@@ -7,7 +7,6 @@ import BOATREVIEW_COMMENT_FIELD from '@salesforce/schema/BoatReview__c.Comment__
 
 export default class BoatReviews  extends NavigationMixin(LightningElement) {
 
-
 // Private
 @track
 boatId;

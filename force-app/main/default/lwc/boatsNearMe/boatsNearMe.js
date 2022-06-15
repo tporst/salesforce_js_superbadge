@@ -13,10 +13,8 @@ export default class BoatsNearMe extends LightningElement {
     @track isRendered = false;
     @track latitude;
     @track longitude;
-    @wire(getBoatsByLocation, { latitude: '$latitude', longitude: '$longitude', boatTypeId: '$boatTypeId' })
+    @wire(getBoatsByLocation, { latitude: '$latitude', longitude: '$longitude', boatTypeId: '$boatTypeId' }) //not all reactive attributes have to be @track
     wiredBoatsJSON({ error, data }) {
-
-        console.log('+++++++ wiredBoatsJSON'+JSON.stringify(data));
         if (data) {
             this.createMapMarkers(data);
         } else if (error) {
@@ -38,6 +36,7 @@ export default class BoatsNearMe extends LightningElement {
         this.isRendered = true;
     }
     getLocationFromBrowser() {
+        //on mac you have to grant permission to access the position thats why i did the dummy fallback to test
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 console.log('position '+JSON.stringify(position))
@@ -74,7 +73,6 @@ export default class BoatsNearMe extends LightningElement {
             title: LABEL_YOU_ARE_HERE,
             icon: ICON_STANDARD_USER
         });
-        console.log('mapMarkers '+JSON.stringify(this.mapMarkers));
         this.isLoading = false;
     }
 }

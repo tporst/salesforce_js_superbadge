@@ -36,8 +36,27 @@ export default class FiveStarRating extends LightningElement {
   //Method to load the 3rd party script and initialize the rating.
   //call the initializeRating function after scripts are loaded
   //display a toast with error message if there is an error loading script
-/*   async loadScript() {
+  //the script can by access from window object like window.rating
+  //the rating script is stored in tmp dir
+  loadScript() {
+           Promise.all([
+             loadStyle(this, fivestar + '/rating.css'),
+             loadScript(this, fivestar + '/rating.js')
+           ]).then(() => {
+              this.initializeRating();
+           }).catch(()=>{
+             // create a custom event 
+             const event = new ShowToastEvent({title:ERROR_TITLE, variant:ERROR_VARIANT});
+             this.dispatchEvent(event);
+           });
+  }
+
+/* 
+  The same functionality but by using async and await 
+
+  async loadScript() {
     try{
+      // wait till all promises are resolved
       await Promise.all([loadScript(this, fivestar + '/rating.js'), loadStyle(this, fivestar + '/rating.css')]);
       this.initializeRating();
     }catch(e){
@@ -50,19 +69,6 @@ export default class FiveStarRating extends LightningElement {
       
     }
   } */
-
-
-  loadScript() {
-           Promise.all([
-             loadStyle(this, fivestar + '/rating.css'),
-             loadScript(this, fivestar + '/rating.js')
-           ]).then(() => {
-             this.initializeRating();
-           }).catch(()=>{
-             const event = new ShowToastEvent({title:ERROR_TITLE, variant:ERROR_VARIANT});
-             this.dispatchEvent(event);
-           });
-  }
 
   initializeRating() {
     let domEl = this.template.querySelector('ul');
@@ -86,9 +92,7 @@ export default class FiveStarRating extends LightningElement {
   // Method to fire event called ratingchange with the following parameter:
   // {detail: { rating: CURRENT_RATING }}); when the user selects a rating
   ratingChanged(rating) {
-    console.log('dispatch ratingchange');
     let ratingChange = new CustomEvent('ratingchange', {detail: { rating: rating },bubbles: true,cancelable: true });
     this.dispatchEvent(ratingChange);
-    console.log('dispatch ratingchange');
   }
 }
