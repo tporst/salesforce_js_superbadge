@@ -1,8 +1,7 @@
-(function() {
-
+(function () {
   /**
    * rating
-   * 
+   *
    * @description The rating component.
    * @param {HTMLElement} el The HTMl element to build the rating widget on
    * @param {Number} currentRating The current rating value
@@ -11,10 +10,9 @@
    * @return {Object} Some public methods
    */
   function rating(el, currentRating, maxRating, callback, readOnly) {
-    
     /**
      * stars
-     * 
+     *
      * @description The collection of stars in the rating.
      * @type {Array}
      */
@@ -26,16 +24,26 @@
      * @description Initializes the rating widget. Returns nothing.
      */
     (function init() {
-      if (!el) { throw Error('No element supplied.'); }
-      if (!maxRating) { throw Error('No max rating supplied.'); }
-      if (!currentRating) { currentRating = 0; }
-      if (currentRating < 0 || currentRating > maxRating) { throw Error('Current rating is out of bounds.'); }
+      if (!el) {
+        throw Error("No element supplied.");
+      }
+      if (!maxRating) {
+        throw Error("No max rating supplied.");
+      }
+      if (!currentRating) {
+        currentRating = 0;
+      }
+      if (currentRating < 0 || currentRating > maxRating) {
+        throw Error("Current rating is out of bounds.");
+      }
 
       for (var i = 0; i < maxRating; i++) {
-        var star = document.createElement('li');
-        star.classList.add('c-rating__item');
-        star.setAttribute('data-index', i);
-        if (i < currentRating) { star.classList.add('is-active'); }
+        var star = document.createElement("li");
+        star.classList.add("c-rating__item");
+        star.setAttribute("data-index", i);
+        if (i < currentRating) {
+          star.classList.add("is-active");
+        }
         el.appendChild(star);
         stars.push(star);
         if (!readOnly) {
@@ -79,12 +87,12 @@
      * @param {HTMLElement} star The star element
      */
     function starMouseOver(star) {
-      star.addEventListener('mouseover', function(e) {
-        iterate(stars, function(item, index) {
-          if (index <= parseInt(star.getAttribute('data-index'))) {
-            item.classList.add('is-active');
+      star.addEventListener("mouseover", function (e) {
+        iterate(stars, function (item, index) {
+          if (index <= parseInt(star.getAttribute("data-index"))) {
+            item.classList.add("is-active");
           } else {
-            item.classList.remove('is-active');
+            item.classList.remove("is-active");
           }
         });
       });
@@ -97,7 +105,7 @@
      * @param {HTMLElement} star The star element
      */
     function starMouseOut(star) {
-      star.addEventListener('mouseout', function(e) {
+      star.addEventListener("mouseout", function (e) {
         if (stars.indexOf(e.relatedTarget) === -1) {
           setRating(null, false);
         }
@@ -111,9 +119,9 @@
      * @param {HTMLElement} star The star element
      */
     function starClick(star) {
-      star.addEventListener('click', function(e) {
+      star.addEventListener("click", function (e) {
         e.preventDefault();
-        setRating(parseInt(star.getAttribute('data-index')) + 1, true);
+        setRating(parseInt(star.getAttribute("data-index")) + 1, true);
       });
     }
 
@@ -127,21 +135,26 @@
      *   callback or not
      */
     function setRating(value, doCallback) {
-
-      if (value && value < 0 || value > maxRating) { return; }
-      if (doCallback === undefined) { doCallback = true; }
+      if ((value && value < 0) || value > maxRating) {
+        return;
+      }
+      if (doCallback === undefined) {
+        doCallback = true;
+      }
 
       currentRating = value || currentRating;
 
-      iterate(stars, function(star, index) {
+      iterate(stars, function (star, index) {
         if (index < currentRating) {
-          star.classList.add('is-active');
+          star.classList.add("is-active");
         } else {
-          star.classList.remove('is-active');
+          star.classList.remove("is-active");
         }
       });
 
-      if (callback && doCallback) { callback(getRating()); }
+      if (callback && doCallback) {
+        callback(getRating());
+      }
     }
 
     /**
@@ -161,12 +174,10 @@
       setRating: setRating,
       getRating: getRating
     };
-
   }
 
   /**
    * Add to global namespace
    */
   window.rating = rating;
-
 })();

@@ -1,36 +1,38 @@
-import { LightningElement , track } from 'lwc';
-import { NavigationMixin } from 'lightning/navigation'
+import { LightningElement, track } from "lwc";
+import { NavigationMixin } from "lightning/navigation";
 
 // imports
 export default class BoatSearch extends NavigationMixin(LightningElement) {
-    @track isLoading = false;
+  @track isLoading = false;
 
-    // other possibility to register this handler is throw event listner
-    // Handles loading event
-    handleLoading(event) {
-        this.isLoading = true;
-    }
+  // other possibility to register this handler is throw event listner
+  // Handles loading event
+  handleLoading(event) {
+    this.isLoading = true;
+  }
 
-    // Handles done loading event
-    handleDoneLoading(event) {
-        this.isLoading = false;
-    }
+  // Handles done loading event
+  handleDoneLoading(event) {
+    this.isLoading = false;
+  }
 
-    // Handles search boat event
-    // This custom event comes from the form
-    searchBoats(event) {
-        const boatTypeId = event.detail.boatTypeId;
-        //call the method on the child component 
-        this.template.querySelector("c-boat-search-results").searchBoats(boatTypeId);
-    }
+  // Handles search boat event
+  // This custom event comes from the form
+  searchBoats(event) {
+    const boatTypeId = event.detail.boatTypeId;
+    //call the method on the child component
+    this.template
+      .querySelector("c-boat-search-results")
+      .searchBoats(boatTypeId);
+  }
 
-    createNewBoat() {
-        this[NavigationMixin.Navigate]({
-            type: 'standard__objectPage',
-            attributes: {
-                objectApiName: 'Boat__c',
-                actionName: 'new'
-            }
-        });
-    }
+  createNewBoat() {
+    this[NavigationMixin.Navigate]({
+      type: "standard__objectPage",
+      attributes: {
+        objectApiName: "Boat__c",
+        actionName: "new"
+      }
+    });
+  }
 }
